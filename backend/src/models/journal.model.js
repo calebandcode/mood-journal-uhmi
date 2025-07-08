@@ -1,35 +1,28 @@
 import mongoose from 'mongoose';
 
-const journalEntrySchema = new mongoose.Schema(
-  {
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
-      required: true,
-    },
-    title: {
-      type: String,
-      required: true,
-      maxlength: 255,
-    },
-    content: {
-      type: String,
-      required: true,
-    },
-    tags: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Tag',
-      },
-    ],
-    isPublic: {
-      type: Boolean,
-      default: false,
-    },
+const journalEntrySchema = new mongoose.Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
   },
-  { timestamps: true }
-);
+  content: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  mood: {
+    type: String,
+    required: true,
+  },
+  isPublic: {
+    type: Boolean,
+    default: false,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
 
-const JournalEntry = mongoose.model('JournalEntry', journalEntrySchema);
-
-export default JournalEntry;
+export default mongoose.model('JournalEntry', journalEntrySchema);
