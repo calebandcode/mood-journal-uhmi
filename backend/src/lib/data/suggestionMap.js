@@ -39,5 +39,4 @@ export const suggestionMap = {
       },
     ],
   },
-  // Extend to other moods...
 };
