@@ -24,7 +24,7 @@ export const createEntry = async (req, res) => {
   }
 };
 
-export const getEntry = async (req, res) => {
+export const getEntries = async (req, res) => {
   try {
     const entries = await Entry.find({ user: req.user._id }).sort({
       createdAt: -1,
