@@ -39,22 +39,4 @@ export const suggestionMap = {
       },
     ],
   },
-  anxious: {
-    low: [
-      {
-        title: 'Deep Breathing',
-        description: 'Inhale for 4, hold for 4, exhale for 4.',
-      },
-    ],
-    high: [
-      {
-        title: '5-4-3-2-1 Technique',
-        description: 'Ground yourself with your senses.',
-      },
-      {
-        title: 'Write Your Fears',
-        description: 'Empty your mind by putting it on paper.',
-      },
-    ],
-  },
 };
