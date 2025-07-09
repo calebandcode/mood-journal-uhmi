@@ -1,3 +1,5 @@
+import { suggestionMap } from '../lib/data/suggestionMap.js';
+
 export const suggestion = (req, res) => {
   const { mood, intensity = 'medium' } = req.query;
 

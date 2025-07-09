@@ -10,4 +10,4 @@ app.use(express.json());
 app.use(cookieParser());
 app.use('/api/auth', authRoutes);
 app.use('/api', journalRoutes);
-app.use('/', suggestionRoutes);
+app.use('/api', suggestionRoutes);

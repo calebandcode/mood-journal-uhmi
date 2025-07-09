@@ -1,6 +1,5 @@
 import express from 'express';
-import { suggestionMap } from '../data/suggestionMap.js';
-import { protect } from '../middleware/authMiddleware.js';
+import { protect } from '../middlewares/auth.js';
 import { suggestion } from '../controllers/suggestions.controller.js';
 
 const router = express.Router();
