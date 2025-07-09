@@ -1,43 +1,32 @@
 import express from 'express';
-import JournalEntry from '../models/journal.model.js';
-import { protect } from '../middlewares/auth.js';
+import { protect } from '../middleware/auth.js';
+import {
+  createEntry,
+  getEntry,
+  getPublicEntry,
+  statsCalendar,
+  statsSummanry,
+} from '../controllers/journal.controllers.js';
 
 const router = express.Router();
 
-// ✅ POST /api/entries - Create entry
-router.post('/entries', protect, async (req, res) => {
-  const { content, mood, isPublic } = req.body;
+// POST /api/entries – create a mood entry
+router.post('/entries', protect, createEntry);
 
-  if (!content || !mood) {
-    return res.status(400).json({ message: 'Content and mood are required.' });
-  }
+// GET /api/my-entries – get logged-in user’s entries
+router.get('/my-entries', protect, getEntry);
 
-  const entry = new JournalEntry({
-    user: req.user._id,
-    content,
-    mood,
-    isPublic: isPublic || false,
-  });
+// GET /api/public-feed – get all public entries
+router.get('/public-feed', getPublicEntry);
 
-  await entry.save();
-  res.status(201).json(entry);
-});
+// PATCH /api/entries/:id - update entry
+router.patch('/entries/:id', protect);
 
-// ✅ GET /api/entries - Get user's entries
-router.get('/entries', protect, async (req, res) => {
-  const entries = await JournalEntry.find({ user: req.user._id }).sort({
-    createdAt: -1,
-  });
-  res.json(entries);
-});
+// DELETE /entries/:id - delete entry
+router.delete('/entries/:id', protect);
 
-// ✅ GET /api/feed - Get all public entries
-router.get('/feed', async (req, res) => {
-  const entries = await JournalEntry.find({ isPublic: true })
-    .populate('user', 'fullName') // Only show name
-    .sort({ createdAt: -1 });
+router.get('/stats/summary', protect, statsSummanry);
 
-  res.json(entries);
-});
+router.get('/stats/calendar', protect, statsCalendar);
 
 export default router;
