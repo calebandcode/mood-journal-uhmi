@@ -2,25 +2,35 @@ import Entry from '../models/journal.model.js';
 
 export const createEntry = async (req, res) => {
   try {
-    const { mood, note, isPublic, showName } = req.body;
+    const { mood, intensity, trigger, context, note, isPublic, showName } =
+      req.body;
 
-    if (!mood) {
-      return res.status(400).json({ message: 'Mood is required.' });
-    }
-
+    // 1. Save entry to DB
     const entry = new Entry({
-      user: req.user._id,
+      user: req.user._id, // from auth middleware
       mood,
-      note: note || '',
-      isPublic: isPublic || false,
-      showName: isPublic && showName ? true : false,
+      intensity,
+      trigger,
+      context,
+      note,
+      isPublic,
+      showName,
     });
 
-    const saved = await entry.save();
-    res.status(201).json(saved);
+    await entry.save();
+
+    // 2. Trigger M2A engine
+    const suggestions = getSuggestions(mood, intensity); // your function
+
+    // 3. Return both entry and suggestions
+    res.status(201).json({
+      message: 'Mood entry saved and suggestions generated',
+      entry,
+      suggestions,
+    });
   } catch (error) {
-    console.error('Create Entry Error:', error);
-    res.status(500).json({ message: 'Server error. Try again.' });
+    console.error('Error creating mood entry:', error);
+    res.status(500).json({ message: 'Something went wrong' });
   }
 };
 
