@@ -1,41 +1,37 @@
 export const suggestionMap = {
   sad: {
-    low: [
-      {
-        title: 'Gratitude List',
-        description: "Write 3 things you're grateful for.",
-      },
-      {
-        title: 'Calming Music',
-        description: 'Play your favorite soothing song.',
-      },
-    ],
     high: [
       {
-        title: 'Call a Friend',
-        description: 'Reach out to someone you trust.',
+        title: 'Write 3 things you’re grateful for',
+        description:
+          'Shift your focus toward the positive, even if it’s small.',
+        microTask: {
+          type: 'list',
+          prompt: 'List 3 things you’re grateful for',
+          count: 3,
+        },
       },
       {
-        title: 'Take a Walk',
-        description: 'Move your body to release emotions.',
+        title: 'Take a short walk',
+        description: 'Walking helps clear your mind and boost endorphins.',
+        microTask: {
+          type: 'text',
+          prompt: 'Describe how you feel after walking',
+        },
       },
     ],
   },
+
   anxious: {
-    low: [
-      {
-        title: 'Deep Breathing',
-        description: 'Inhale for 4, hold for 4, exhale for 4.',
-      },
-    ],
     high: [
       {
-        title: '5-4-3-2-1 Technique',
-        description: 'Ground yourself with your senses.',
-      },
-      {
-        title: 'Write Your Fears',
-        description: 'Empty your mind by putting it on paper.',
+        title: 'Use the 5-4-3-2-1 grounding technique',
+        description: 'Helps reduce anxiety by anchoring you to the present.',
+        microTask: {
+          type: 'list',
+          prompt: 'List 5 things you can see',
+          count: 5,
+        },
       },
     ],
   },
