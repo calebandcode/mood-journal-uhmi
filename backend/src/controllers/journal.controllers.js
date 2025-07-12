@@ -1,14 +1,35 @@
 import { getSuggestions } from '../lib/getSuggestion.js';
 import Entry from '../models/journal.model.js';
 
+import { getSuggestions } from '../lib/getSuggestion.js';
+import Entry from '../models/journal.model.js';
+
 export const createEntry = async (req, res) => {
   try {
     const { mood, intensity, trigger, context, note, isPublic, showName } =
       req.body;
 
-    // 1. Save entry to DB
+    // 1. Generate Suggestions from M2A Engine
+    const suggestions = getSuggestions(mood, intensity);
+
+    // 2. Format for saving inside entry.suggestionFeedback
+    const formattedFeedback = suggestions.map((s) => ({
+      suggestion: s.title,
+      wasHelpful: null,
+      microTask: s.microTask
+        ? {
+            type: s.microTask.type,
+            prompt: s.microTask.prompt,
+            count: s.microTask.count || undefined,
+            input: [],
+            done: false,
+          }
+        : undefined,
+    }));
+
+    // 3. Save entry to DB
     const entry = new Entry({
-      user: req.user._id, // from auth middleware
+      user: req.user._id,
       mood,
       intensity,
       trigger,
@@ -16,14 +37,12 @@ export const createEntry = async (req, res) => {
       note,
       isPublic,
       showName,
+      suggestionFeedback: formattedFeedback,
     });
 
     await entry.save();
 
-    // 2. Trigger M2A engine
-    const suggestions = getSuggestions(mood, intensity); // your function
-
-    // 3. Return both entry and suggestions
+    // 4. Return response
     res.status(201).json({
       message: 'Mood entry saved and suggestions generated',
       entry,
