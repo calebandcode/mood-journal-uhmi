@@ -1,14 +1,17 @@
-import { suggestionMap } from '../lib/data/suggestionMap.js';
+import { getSuggestions } from '../lib/getSuggestion.js';
 
 export const suggestion = (req, res) => {
   const { mood, intensity = 'medium' } = req.query;
 
-  if (!mood || !suggestionMap[mood]) {
-    return res.status(400).json({ message: 'Invalid or missing mood.' });
+  if (!mood) {
+    return res.status(400).json({ message: 'Mood is required.' });
   }
 
-  const suggestions =
-    suggestionMap[mood][intensity] || suggestionMap[mood]['medium'] || [];
-
-  res.json(suggestions.slice(0, 3)); // Limit to top 3 suggestions
+  try {
+    const suggestions = getSuggestions(mood, intensity);
+    res.json(suggestions);
+  } catch (error) {
+    console.error('Suggestion route error:', error);
+    res.status(500).json({ message: 'Could not generate suggestions.' });
+  }
 };

@@ -17,7 +17,7 @@ router.post('/entries', protect, createEntry);
 router.get('/entries', protect, getEntries);
 
 // GET /api/public-feed – get all public entries
-router.get('/public-feed', getPublicEntry);
+router.get('/entries/public', getPublicEntry);
 
 // PATCH /api/entries/:id - update entry
 router.patch('/entries/:id', protect);

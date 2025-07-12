@@ -1,9 +1,6 @@
 import { getSuggestions } from '../lib/getSuggestion.js';
 import Entry from '../models/journal.model.js';
 
-import { getSuggestions } from '../lib/getSuggestion.js';
-import Entry from '../models/journal.model.js';
-
 export const createEntry = async (req, res) => {
   try {
     const { mood, intensity, trigger, context, note, isPublic, showName } =
