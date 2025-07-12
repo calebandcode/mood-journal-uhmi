@@ -20,12 +20,6 @@ const entrySchema = new mongoose.Schema({
   context: {
     type: String, // e.g. 'morning', 'night', 'weekend', 'with friends'
   },
-  suggestionFeedback: [
-    {
-      suggestion: String,
-      wasHelpful: Boolean,
-    },
-  ],
   note: {
     type: String, // short reflection, optional
     trim: true,
@@ -36,8 +30,37 @@ const entrySchema = new mongoose.Schema({
   },
   showName: {
     type: Boolean,
-    default: false, // public entries show "anonymous" unless user allows name
+    default: false,
   },
+
+  suggestionFeedback: [
+    {
+      suggestion: {
+        type: String,
+        required: true,
+      },
+      wasHelpful: {
+        type: Boolean,
+        default: null,
+      },
+
+      // micro-task info embedded here
+      microTask: {
+        type: {
+          type: String, // 'text' | 'list' | 'timer'
+          enum: ['text', 'list', 'timer'],
+        },
+        prompt: String,
+        count: Number, // only applies to type === 'list'
+        input: [String], // user’s response(s)
+        done: {
+          type: Boolean,
+          default: false,
+        },
+      },
+    },
+  ],
+
   createdAt: {
     type: Date,
     default: Date.now,

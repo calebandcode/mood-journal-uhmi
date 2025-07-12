@@ -1,3 +1,4 @@
+import { getSuggestions } from '../lib/getSuggestion.js';
 import Entry from '../models/journal.model.js';
 
 export const createEntry = async (req, res) => {
