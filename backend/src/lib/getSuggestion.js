@@ -2,8 +2,8 @@ import { suggestionMap } from '../lib/data/suggestionMap.js';
 
 /**
  * Returns structured suggestions with micro-task support
- * @param {string} mood - e.g. "sad", "anxious"
- * @param {string} intensity - e.g. "low", "high"
+ * @param {string} mood - "sad", "anxious"
+ * @param {string} intensity - "low", "high"
  * @returns {Array} array of suggestions (max 3)
  */
 export const getSuggestions = (mood, intensity) => {
